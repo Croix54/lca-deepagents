@@ -34,61 +34,14 @@ load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env", override=True)
 
 from langchain.chat_models import init_chat_model
 
-# ═══ Default Models ══════════════════════════════════════════════════════════
-# Workshop default: Anthropic claude-haiku-4-5, fast and cost-effective.
-# Requires ANTHROPIC_API_KEY in .env
-model = init_chat_model("anthropic:claude-haiku-4-5", timeout=60, max_retries=2)
-
-# A more capable model for steps that need stronger reasoning
-strong_model = init_chat_model(
-    "anthropic:claude-sonnet-5-5", timeout=120, max_retries=2
-)
-
-# ═══ Alternative Models (comment out default above, uncomment one below) ═════
-# model = init_chat_model("anthropic:claude-sonnet-5-5")
-# model = init_chat_model("openai:gpt-6-luna", use_responses_api=True)
-# strong_model = init_chat_model("openai:gpt-6.1-sol", use_responses_api=True)
-
-# ═══ Open-Source / Alternative Hosted Models ══════════════════════════════════
-
-# Groq: fast hosted inference for Llama, Mixtral, and others (free tier available)
-# Install first:  uv add langchain-groq
-# Requires GROQ_API_KEY in .env  (get one at console.groq.com)
-#
-# model = init_chat_model("groq:llama-3.3-70b-versatile")
-
-# Ollama: run models locally (no API key required)
-# langchain-ollama is already installed (default dep)
-# Install the Ollama app first: https://ollama.com
-# Pull a model first, e.g.:  ollama pull qwen2.5:7b
-# Note: small local models (7-8B) can mis-call tools or guess names; keep strong_model on a hosted model.
-#
-# model = init_chat_model("ollama:qwen2.5:7b")
-
-# Kimi (Moonshot AI): OpenAI-compatible hosted API
-# No extra install needed (langchain-openai is already a default dep)
-# Requires KIMI_API_KEY in .env  (get one at platform.moonshot.cn)
-#
-# from langchain_openai import ChatOpenAI
-# model = ChatOpenAI(model="moonshot-v1-8k", base_url="https://api.moonshot.cn/v1", api_key=os.environ["KIMI_API_KEY"])
-
-# OpenRouter: hosted open-source models via OpenAI-compatible API
-# No extra install needed (langchain-openai is already a default dep)
-# Free models available; sign up at openrouter.ai and get an API key
-# Requires OPENROUTER_API_KEY in .env
-#
-# from langchain_openai import ChatOpenAI
-# model = ChatOpenAI(model="nvidia/nemotron-3-ultra-550b-a55b:free", base_url="https://openrouter.ai/api/v1", api_key=os.environ["OPENROUTER_API_KEY"])
-
-
-# ═══ Cloud Provider Models (extra install required, see table above) ═════════
 # ─── Azure OpenAI ─────────────────────────────────────────────────────────────
 # Install first:  uv sync --extra azure
 # Requires AZURE_OPENAI_API_KEY, AZURE_OPENAI_ENDPOINT, OPENAI_API_VERSION in .env
 # Set your deployment name directly below (it isn't read from .env)
 #
-# from langchain_openai import AzureChatOpenAI
-# model = AzureChatOpenAI(azure_deployment="gpt-4.1", api_version="2024-12-01-preview")
+from langchain_openai import AzureChatOpenAI
+
+model = AzureChatOpenAI(azure_deployment="gpt-6.1-sol", api_version="2024-12-01-preview")
 
 
 # ─── AWS Bedrock ──────────────────────────────────────────────────────────────
